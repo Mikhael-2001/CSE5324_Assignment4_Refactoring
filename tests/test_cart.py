@@ -7,7 +7,8 @@ class TestShoppingCart(unittest.TestCase):
     def setUp(self):
         """Set up a fresh cart and product for each test."""
         self.cart = ShoppingCart()
-        self.test_product = Product(id=1, name="Laptop", price=1000.0, stock=10)
+        # Fixed: Changed 'id' to 'product_id' to match models.py
+        self.test_product = Product(product_id=1, name="Laptop", price=1000.0, stock=10)
 
     def test_add_item_to_cart(self):
         """Test if items are correctly added to the cart list."""
@@ -20,7 +21,6 @@ class TestShoppingCart(unittest.TestCase):
         """Test the subtotal calculation for multiple items."""
         self.cart.add_item(self.test_product, 1, 1000.0)
         self.cart.add_item(self.test_product, 2, 500.0)
-        # 1000 + (2 * 500) = 2000
         self.assertEqual(self.cart.calculate_subtotal(), 2000.0)
 
     def test_clear_cart(self):
@@ -38,7 +38,6 @@ class TestShoppingCart(unittest.TestCase):
     def test_email_notification_service(self):
         """Test if the notification service executes without errors."""
         service = EmailService()
-        # This confirms the method exists and handles inputs
         try:
             service.send("student@uta.edu", "Order Update", "Your item was added.")
             executed = True
